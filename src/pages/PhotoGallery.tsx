@@ -1,13 +1,19 @@
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Camera, ArrowRight, ArrowLeft, Heart } from 'lucide-react';
+import { Camera, ArrowRight, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel';
 
 const PhotoGallery = () => {
   const navigate = useNavigate();
-  const [currentPhoto, setCurrentPhoto] = useState(0);
 
   const photos = [
     {
@@ -36,14 +42,6 @@ const PhotoGallery = () => {
     },
   ];
 
-  const nextPhoto = () => {
-    setCurrentPhoto((prev) => (prev + 1) % photos.length);
-  };
-
-  const prevPhoto = () => {
-    setCurrentPhoto((prev) => (prev - 1 + photos.length) % photos.length);
-  };
-
   return (
     <div className="min-h-screen py-12 px-6 bg-background">
       <div className="max-w-4xl mx-auto">
@@ -56,53 +54,42 @@ const PhotoGallery = () => {
           <p className="text-muted-foreground font-light">Each moment captured with love</p>
         </div>
 
-        {/* Photo Display */}
-        <Card className="minimal-card mb-8 scale-in-minimal">
-          <CardContent className="p-6">
-            <div className="relative">
-              <img
-                src={photos[currentPhoto].src}
-                alt={`Memory ${currentPhoto + 1}`}
-                className="w-full h-80 md:h-96 object-cover rounded-lg"
-              />
-              <div className="absolute top-4 right-4">
-                <div className="w-8 h-8 rounded-full bg-accent/80 flex items-center justify-center">
-                  <Heart className="w-4 h-4 text-primary" fill="currentColor" />
-                </div>
-              </div>
-            </div>
-            
-            <div className="mt-6 text-center">
-              <p className="text-lg text-muted-foreground font-light italic">
-                {photos[currentPhoto].caption}
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Navigation Controls */}
-        <div className="flex justify-center items-center gap-6 mb-8">
-          <Button
-            onClick={prevPhoto}
-            variant="outline"
-            size="icon"
-            className="rounded-full"
-          >
-            <ArrowLeft className="w-4 h-4" />
-          </Button>
-          
-          <span className="text-sm text-muted-foreground font-medium min-w-[80px]">
-            {currentPhoto + 1} of {photos.length}
-          </span>
-          
-          <Button
-            onClick={nextPhoto}
-            variant="outline"
-            size="icon"
-            className="rounded-full"
-          >
-            <ArrowRight className="w-4 h-4" />
-          </Button>
+        {/* Photo Carousel */}
+        <div className="mb-12 scale-in-minimal">
+          <Carousel className="w-full max-w-3xl mx-auto">
+            <CarouselContent>
+              {photos.map((photo, index) => (
+                <CarouselItem key={index}>
+                  <Card className="minimal-card">
+                    <CardContent className="p-6">
+                      <div className="relative">
+                        <div className="aspect-[4/3] overflow-hidden rounded-lg">
+                          <img
+                            src={photo.src}
+                            alt={`Memory ${index + 1}`}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div className="absolute top-4 right-4">
+                          <div className="w-8 h-8 rounded-full bg-accent/80 flex items-center justify-center">
+                            <Heart className="w-4 h-4 text-primary" fill="currentColor" />
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="mt-6 text-center">
+                        <p className="text-lg text-muted-foreground font-light italic">
+                          {photo.caption}
+                        </p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
         </div>
 
         {/* Photo Thumbnails */}
@@ -110,12 +97,7 @@ const PhotoGallery = () => {
           {photos.map((photo, index) => (
             <button
               key={index}
-              onClick={() => setCurrentPhoto(index)}
-              className={`relative overflow-hidden rounded-lg transition-all duration-200 ${
-                index === currentPhoto
-                  ? 'ring-2 ring-primary scale-105'
-                  : 'hover:scale-105 opacity-60 hover:opacity-100'
-              }`}
+              className="relative overflow-hidden rounded-lg transition-all duration-200 hover:scale-105 opacity-60 hover:opacity-100"
             >
               <img
                 src={photo.src}

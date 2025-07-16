@@ -1,8 +1,9 @@
 
 import { useNavigate } from 'react-router-dom';
-import { Heart, Camera, Calendar, MapPin, Star, Home } from 'lucide-react';
+import { Heart, Camera, Calendar, MapPin, Star, Home, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import TimelineCard from '@/components/TimelineCard';
 
 const Timeline = () => {
   const navigate = useNavigate();
@@ -46,6 +47,11 @@ const Timeline = () => {
     }
   ];
 
+  const handleAddNewStory = () => {
+    // This could trigger adding a new editable card
+    console.log('Adding new story');
+  };
+
   return (
     <div className="min-h-screen py-12 px-6 bg-background">
       <div className="max-w-4xl mx-auto">
@@ -55,6 +61,18 @@ const Timeline = () => {
           <p className="text-muted-foreground font-light">
             The beautiful journey of us, from the beginning to forever
           </p>
+          
+          {/* Add Story Button */}
+          <div className="mt-6">
+            <Button
+              onClick={handleAddNewStory}
+              variant="outline"
+              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+            >
+              <Plus className="mr-2 w-4 h-4" />
+              Add Your Story
+            </Button>
+          </div>
         </div>
 
         {/* Timeline */}
@@ -63,9 +81,27 @@ const Timeline = () => {
           <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-border transform md:-translate-x-1/2"></div>
 
           <div className="space-y-12">
+            {/* Editable Timeline Card Example */}
+            <div className="relative flex items-center md:flex-row fade-in-minimal">
+              {/* Timeline Icon */}
+              <div className="absolute left-6 md:left-1/2 w-8 h-8 transform md:-translate-x-1/2 z-10">
+                <div className="w-full h-full rounded-full bg-primary flex items-center justify-center">
+                  <Plus className="text-primary-foreground w-4 h-4" />
+                </div>
+              </div>
+
+              {/* Content Card */}
+              <div className="w-full md:w-5/12 ml-20 md:ml-0 md:mr-8">
+                <TimelineCard
+                  isEditable={true}
+                  IconComponent={Camera}
+                />
+              </div>
+            </div>
+
             {timelineEvents.map((event, index) => {
               const IconComponent = event.icon;
-              const isEven = index % 2 === 0;
+              const isEven = (index + 1) % 2 === 0; // Offset by 1 due to the editable card
 
               return (
                 <div
@@ -73,7 +109,7 @@ const Timeline = () => {
                   className={`relative flex items-center ${
                     isEven ? 'md:flex-row' : 'md:flex-row-reverse'
                   } fade-in-minimal`}
-                  style={{ animationDelay: `${index * 0.1}s` }}
+                  style={{ animationDelay: `${(index + 1) * 0.1}s` }}
                 >
                   {/* Timeline Icon */}
                   <div className="absolute left-6 md:left-1/2 w-8 h-8 transform md:-translate-x-1/2 z-10">
@@ -86,24 +122,12 @@ const Timeline = () => {
                   <div className={`w-full md:w-5/12 ml-20 md:ml-0 ${
                     isEven ? 'md:mr-8' : 'md:ml-8'
                   }`}>
-                    <Card className="minimal-card hover:shadow-md transition-all duration-200">
-                      <CardContent className="p-6">
-                        <div className="flex items-center gap-3 mb-3">
-                          <IconComponent className="text-primary w-5 h-5" />
-                          <h3 className="text-lg font-medium text-foreground">
-                            {event.title}
-                          </h3>
-                        </div>
-                        
-                        <p className="text-primary text-sm font-medium mb-3">
-                          {event.date}
-                        </p>
-                        
-                        <p className="text-muted-foreground leading-relaxed font-light">
-                          {event.description}
-                        </p>
-                      </CardContent>
-                    </Card>
+                    <TimelineCard
+                      initialTitle={event.title}
+                      initialDate={event.date}
+                      initialDescription={event.description}
+                      IconComponent={IconComponent}
+                    />
                   </div>
                 </div>
               );
