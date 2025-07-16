@@ -3,121 +3,152 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Camera, ArrowRight, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@/components/ui/carousel';
 
 const PhotoGallery = () => {
   const navigate = useNavigate();
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [showSplash, setShowSplash] = useState(false);
 
   const photos = [
     {
-      src: "https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?w=400",
+      src: "https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?w=800",
       caption: "Our first date - when I knew you were special",
     },
     {
-      src: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400",
+      src: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=800",
       caption: "Your smile here melted my heart",
     },
     {
-      src: "https://images.unsplash.com/photo-1511593358241-7eea1f3c84e5?w=400",
+      src: "https://images.unsplash.com/photo-1511593358241-7eea1f3c84e5?w=800",
       caption: "That perfect sunset moment with you",
     },
     {
-      src: "https://images.unsplash.com/photo-1518049362265-d5b2a6467637?w=400",
+      src: "https://images.unsplash.com/photo-1518049362265-d5b2a6467637?w=800",
       caption: "When we laughed until our stomachs hurt",
     },
     {
-      src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400",
+      src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800",
       caption: "Dancing like nobody's watching",
     },
     {
-      src: "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400",
+      src: "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800",
       caption: "Our silly moments together",
     },
   ];
 
+  const handleHeartClick = () => {
+    if (isAnimating) return;
+    
+    setShowSplash(true);
+    setIsAnimating(true);
+    
+    // Show splash animation
+    setTimeout(() => {
+      setShowSplash(false);
+      // Move to next image
+      setCurrentImageIndex((prev) => (prev + 1) % photos.length);
+      
+      // Reset animation state
+      setTimeout(() => {
+        setIsAnimating(false);
+      }, 300);
+    }, 600);
+  };
+
+  const currentPhoto = photos[currentImageIndex];
+
   return (
-    <div className="min-h-screen py-12 px-6 bg-background">
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-12 fade-in-minimal">
-          <div className="inline-flex items-center gap-2 mb-4">
-            <Camera className="w-6 h-6 text-primary" />
-            <h1 className="text-3xl font-light text-foreground">Our Beautiful Memories</h1>
-          </div>
-          <p className="text-muted-foreground font-light">Each moment captured with love</p>
+    <div className="min-h-screen flex flex-col items-center justify-center px-6 bg-background relative overflow-hidden">
+      {/* Header */}
+      <div className="absolute top-8 left-1/2 transform -translate-x-1/2 text-center fade-in-minimal">
+        <div className="inline-flex items-center gap-2 mb-2">
+          <Camera className="w-5 h-5 text-primary" />
+          <h1 className="text-2xl font-light text-foreground">Our Beautiful Memories</h1>
         </div>
+        <p className="text-sm text-muted-foreground font-light">Tap the heart to see more</p>
+      </div>
 
-        {/* Photo Carousel */}
-        <div className="mb-12 scale-in-minimal">
-          <Carousel className="w-full max-w-3xl mx-auto">
-            <CarouselContent>
-              {photos.map((photo, index) => (
-                <CarouselItem key={index}>
-                  <Card className="minimal-card">
-                    <CardContent className="p-6">
-                      <div className="relative">
-                        <div className="aspect-[4/3] overflow-hidden rounded-lg">
-                          <img
-                            src={photo.src}
-                            alt={`Memory ${index + 1}`}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <div className="absolute top-4 right-4">
-                          <div className="w-8 h-8 rounded-full bg-accent/80 flex items-center justify-center">
-                            <Heart className="w-4 h-4 text-primary" fill="currentColor" />
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div className="mt-6 text-center">
-                        <p className="text-lg text-muted-foreground font-light italic">
-                          {photo.caption}
-                        </p>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
-        </div>
-
-        {/* Photo Thumbnails */}
-        <div className="grid grid-cols-3 md:grid-cols-6 gap-3 mb-12">
-          {photos.map((photo, index) => (
+      {/* Main Photo Container */}
+      <div className="relative w-full max-w-lg mx-auto">
+        {/* Photo Card */}
+        <div 
+          className={`relative bg-card rounded-2xl shadow-lg overflow-hidden transition-all duration-500 ${
+            isAnimating ? 'scale-95 opacity-90' : 'scale-100 opacity-100'
+          }`}
+        >
+          {/* Image */}
+          <div className="relative aspect-[4/3] overflow-hidden">
+            <img
+              key={currentImageIndex}
+              src={currentPhoto.src}
+              alt={`Memory ${currentImageIndex + 1}`}
+              className={`w-full h-full object-cover transition-all duration-700 ${
+                isAnimating ? 'scale-110' : 'scale-100'
+              }`}
+            />
+            
+            {/* Heart Button */}
             <button
-              key={index}
-              className="relative overflow-hidden rounded-lg transition-all duration-200 hover:scale-105 opacity-60 hover:opacity-100"
+              onClick={handleHeartClick}
+              disabled={isAnimating}
+              className={`absolute top-4 right-4 w-12 h-12 rounded-full bg-white/90 backdrop-blur-sm 
+                         flex items-center justify-center transition-all duration-200 hover:scale-110 
+                         hover:bg-white shadow-lg ${isAnimating ? 'pointer-events-none' : ''}`}
             >
-              <img
-                src={photo.src}
-                alt={`Thumbnail ${index + 1}`}
-                className="w-full h-16 object-cover"
+              <Heart 
+                className={`w-6 h-6 text-red-500 transition-all duration-200 ${
+                  isAnimating ? 'scale-125' : 'scale-100'
+                }`} 
+                fill="currentColor" 
               />
             </button>
-          ))}
+
+            {/* Heart Splash Animation */}
+            {showSplash && (
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="heart-splash">
+                  <Heart className="w-16 h-16 text-red-500" fill="currentColor" />
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Caption */}
+          <div className="p-6 text-center">
+            <p 
+              key={`caption-${currentImageIndex}`}
+              className="text-lg text-muted-foreground font-light italic animate-fade-in"
+            >
+              {currentPhoto.caption}
+            </p>
+          </div>
         </div>
 
-        {/* Navigation to Next Section */}
-        <div className="text-center">
-          <Button
-            onClick={() => navigate('/gift-box')}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-lg font-medium transition-all duration-200 hover:scale-[1.02]"
-          >
-            Open your gift box
-            <ArrowRight className="ml-2 w-4 h-4" />
-          </Button>
+        {/* Image Counter */}
+        <div className="flex justify-center mt-6 space-x-2">
+          {photos.map((_, index) => (
+            <div
+              key={index}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                index === currentImageIndex 
+                  ? 'bg-primary scale-125' 
+                  : 'bg-muted-foreground/30'
+              }`}
+            />
+          ))}
         </div>
+      </div>
+
+      {/* Navigation Button */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+        <Button
+          onClick={() => navigate('/gift-box')}
+          className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-full font-medium transition-all duration-200 hover:scale-105 shadow-lg"
+        >
+          Open your gift box
+          <ArrowRight className="ml-2 w-4 h-4" />
+        </Button>
       </div>
     </div>
   );
