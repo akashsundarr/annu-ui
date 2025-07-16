@@ -12,16 +12,16 @@ const HeartGame = () => {
   const [allRevealed, setAllRevealed] = useState(false);
 
   const loveReasons = [
-    "I love the way you say my name 💕",
-    "You make my world better every day ✨",
-    "Your laugh is my favorite sound 😊",
-    "You understand me like no one else 💖",
-    "Your kindness touches everyone around you 🌟",
-    "You make ordinary moments magical ✨",
-    "Your hugs feel like home 🏡",
-    "You believe in me when I don't believe in myself 💪",
-    "Your smile brightens my darkest days ☀️",
-    "You love me exactly as I am 💯"
+    "I love the way you say my name",
+    "You make my world better every day",
+    "Your laugh is my favorite sound",
+    "You understand me like no one else",
+    "Your kindness touches everyone around you",
+    "You make ordinary moments magical",
+    "Your hugs feel like home",
+    "You believe in me when I don't believe in myself",
+    "Your smile brightens my darkest days",
+    "You love me exactly as I am"
   ];
 
   const heartPositions = [
@@ -44,7 +44,7 @@ const HeartGame = () => {
     setCurrentMessage(loveReasons[index]);
     
     if (clickedHearts.length + 1 === loveReasons.length) {
-      setTimeout(() => setAllRevealed(true), 1000);
+      setTimeout(() => setAllRevealed(true), 800);
     }
   };
 
@@ -55,61 +55,65 @@ const HeartGame = () => {
   };
 
   return (
-    <div className="min-h-screen py-12 px-6 relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 pointer-events-none opacity-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-pink-200 to-red-200"></div>
-      </div>
-
+    <div className="min-h-screen py-12 px-6 bg-background">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-red-500 mb-4 fade-in-up">
-            Click the Hearts Game
-          </h1>
-          <p className="text-lg text-gray-600 mb-4">
-            Find and click all the floating hearts to discover why I love you! 💖
+        <div className="text-center mb-8 fade-in-minimal">
+          <h1 className="text-3xl font-light text-foreground mb-4">Click the Hearts Game</h1>
+          <p className="text-muted-foreground font-light mb-4">
+            Find and click all the floating hearts to discover why I love you
           </p>
-          <div className="text-pink-600 font-medium">
-            Hearts Found: {clickedHearts.length} / {loveReasons.length}
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-muted rounded-full">
+            <Heart className="w-4 h-4 text-primary" fill="currentColor" />
+            <span className="text-sm text-muted-foreground font-medium">
+              {clickedHearts.length} / {loveReasons.length}
+            </span>
           </div>
         </div>
 
         {/* Game Area */}
-        <div className="relative h-96 md:h-[500px] mb-8 bg-gradient-to-br from-pink-50 to-red-50 rounded-3xl border-2 border-pink-200 overflow-hidden">
-          {heartPositions.map((position, index) => (
-            <Heart
-              key={index}
-              onClick={() => handleHeartClick(index)}
-              className={`absolute cursor-pointer transition-all duration-300 transform ${
-                clickedHearts.includes(index)
-                  ? 'text-red-500 scale-125 opacity-50'
-                  : 'text-pink-400 hover:text-red-500 hover:scale-110 heart-float'
-              }`}
-              style={{
-                top: position.top,
-                left: position.left,
-                animationDelay: `${index * 0.2}s`,
-              }}
-              size={32}
-            />
-          ))}
-          
-          {/* Floating instruction */}
-          {clickedHearts.length === 0 && (
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
-              <p className="text-pink-600 font-medium text-lg animate-pulse">
-                Click the hearts to reveal messages! 💕
-              </p>
-            </div>
-          )}
-        </div>
+        <Card className="minimal-card mb-8 scale-in-minimal">
+          <CardContent className="relative h-96 md:h-[500px] p-0 overflow-hidden rounded-lg">
+            <div className="absolute inset-0 bg-gradient-to-br from-muted/30 to-accent/20"></div>
+            {heartPositions.map((position, index) => (
+              <Heart
+                key={index}
+                onClick={() => handleHeartClick(index)}
+                className={`absolute cursor-pointer transition-all duration-300 ${
+                  clickedHearts.includes(index)
+                    ? 'text-primary scale-125 opacity-50'
+                    : 'text-primary/60 hover:text-primary hover:scale-110 gentle-float'
+                }`}
+                style={{
+                  top: position.top,
+                  left: position.left,
+                  animationDelay: `${index * 0.2}s`,
+                }}
+                size={24}
+                fill="currentColor"
+              />
+            ))}
+            
+            {/* Floating instruction */}
+            {clickedHearts.length === 0 && (
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <Card className="bg-card/80 backdrop-blur-sm border-border/50">
+                  <CardContent className="p-4">
+                    <p className="text-muted-foreground font-light text-center">
+                      Click the hearts to reveal messages
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
+          </CardContent>
+        </Card>
 
         {/* Current Message Display */}
         {currentMessage && (
-          <Card className="border-2 border-pink-200 glow-pink mb-8 bounce-in">
+          <Card className="minimal-card mb-8 scale-in-minimal">
             <CardContent className="p-6 text-center">
-              <p className="text-xl text-gray-700 font-medium">
+              <p className="text-lg text-foreground font-light">
                 {currentMessage}
               </p>
             </CardContent>
@@ -118,14 +122,18 @@ const HeartGame = () => {
 
         {/* All Hearts Found Celebration */}
         {allRevealed && (
-          <div className="text-center space-y-6 fade-in-up">
-            <div className="text-6xl mb-4">🎉</div>
-            <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-red-500">
-              You found all the reasons I love you!
-            </h2>
-            <p className="text-xl text-gray-700 italic">
-              "And these are just the beginning... I love you more every day! 💕"
-            </p>
+          <div className="text-center space-y-6 fade-in-minimal">
+            <div className="text-4xl mb-4">🎉</div>
+            <Card className="minimal-card">
+              <CardContent className="p-8">
+                <h2 className="text-2xl font-light text-foreground mb-4">
+                  You found all the reasons I love you!
+                </h2>
+                <p className="text-lg text-muted-foreground font-light italic">
+                  "And these are just the beginning... I love you more every day!"
+                </p>
+              </CardContent>
+            </Card>
           </div>
         )}
 
@@ -134,18 +142,18 @@ const HeartGame = () => {
           <Button
             onClick={resetGame}
             variant="outline"
-            className="border-pink-300 text-pink-600 hover:bg-pink-50 rounded-full px-6 py-3"
+            className="px-6 py-3 font-medium"
           >
-            <RotateCcw className="mr-2" size={18} />
+            <RotateCcw className="mr-2 w-4 h-4" />
             Play Again
           </Button>
           
           <Button
             onClick={() => navigate('/timeline')}
-            className="bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600 text-white px-8 py-3 rounded-full glow-pink transition-all duration-300 transform hover:scale-105"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 font-medium transition-all duration-200 hover:scale-[1.02]"
           >
             Our Love Timeline
-            <ArrowRight className="ml-2" size={18} />
+            <ArrowRight className="ml-2 w-4 h-4" />
           </Button>
         </div>
       </div>
