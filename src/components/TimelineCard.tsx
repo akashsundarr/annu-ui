@@ -13,6 +13,7 @@ interface TimelineCardProps {
   initialDescription?: string;
   initialImage?: string;
   IconComponent?: React.ComponentType<{ className?: string }>;
+  onSave?: (data: { title: string; date: string; description: string; image: string }) => void;
 }
 
 const TimelineCard = ({
@@ -21,9 +22,10 @@ const TimelineCard = ({
   initialDate = "",
   initialDescription = "",
   initialImage = "",
-  IconComponent = Camera
+  IconComponent = Camera,
+  onSave
 }: TimelineCardProps) => {
-  const [isEditing, setIsEditing] = useState(isEditable);
+  const [isEditing, setIsEditing] = useState(isEditable && !initialTitle);
   const [title, setTitle] = useState(initialTitle);
   const [date, setDate] = useState(initialDate);
   const [description, setDescription] = useState(initialDescription);
@@ -45,8 +47,14 @@ const TimelineCard = ({
 
   const handleSave = () => {
     setIsEditing(false);
-    // Here you could add logic to save to a database or local storage
-    console.log('Saving timeline card:', { title, date, description, image });
+    const savedData = { title, date, description, image };
+    
+    // Call the onSave callback if provided
+    if (onSave) {
+      onSave(savedData);
+    }
+    
+    console.log('Saving timeline card:', savedData);
   };
 
   const handleCancel = () => {
@@ -57,6 +65,30 @@ const TimelineCard = ({
     setImagePreview(initialImage);
     setIsEditing(false);
   };
+
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+
+  // If it's a new card (no initial title) and not editing, show a placeholder
+  if (!isEditing && !title && !date && !description && !imagePreview) {
+    return (
+      <Card className="minimal-card hover:shadow-md transition-all duration-200 border-dashed">
+        <CardContent className="p-6 text-center">
+          <div className="flex flex-col items-center gap-3 py-8">
+            <IconComponent className="text-muted-foreground w-8 h-8" />
+            <p className="text-muted-foreground font-light">
+              Click edit to add your timeline story
+            </p>
+            <Button onClick={handleEdit} variant="outline" size="sm">
+              <Edit className="w-4 h-4 mr-2" />
+              Add Story
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card className="minimal-card hover:shadow-md transition-all duration-200">
@@ -91,13 +123,13 @@ const TimelineCard = ({
                   accept="image/*"
                   onChange={handleImageUpload}
                   className="hidden"
-                  id="image-upload"
+                  id={`image-upload-${Date.now()}`}
                 />
                 <Button
                   type="button"
                   variant="outline"
                   size="sm"
-                  onClick={() => document.getElementById('image-upload')?.click()}
+                  onClick={() => document.getElementById(`image-upload-${Date.now()}`)?.click()}
                   className="flex items-center gap-2"
                 >
                   <Upload className="w-4 h-4" />
@@ -157,7 +189,7 @@ const TimelineCard = ({
               </div>
               {isEditable && (
                 <Button
-                  onClick={() => setIsEditing(true)}
+                  onClick={handleEdit}
                   variant="ghost"
                   size="sm"
                 >
