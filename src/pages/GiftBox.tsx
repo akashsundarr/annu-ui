@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Sparkles } from 'lucide-react';
@@ -7,11 +6,11 @@ import { Card, CardContent } from '@/components/ui/card';
 import SpinWheelGame from '@/components/SpinWheelGame';
 import MemoryCardGame from '@/components/MemoryCardGame';
 import BalloonPopGame from '@/components/BalloonPopGame';
-import PuzzleGame from '@/components/PuzzleGame';
+import WordScrambleGame from '@/components/WordScrambleGame';
 import ScratchCardGame from '@/components/ScratchCardGame';
 import QuizGame from '@/components/QuizGame';
 
-type GameStep = 'start' | 'spin-wheel' | 'gift-card-1' | 'memory-game' | 'gift-card-2' | 'balloon-game' | 'gift-card-3' | 'puzzle-game' | 'gift-card-4' | 'scratch-game' | 'gift-card-5' | 'quiz-game' | 'gift-card-6' | 'final';
+type GameStep = 'start' | 'spin-wheel' | 'gift-card-1' | 'memory-game' | 'gift-card-2' | 'balloon-game' | 'gift-card-3' | 'word-scramble' | 'gift-card-4' | 'scratch-game' | 'gift-card-5' | 'quiz-game' | 'gift-card-6' | 'final';
 
 interface Gift {
   name: string;
@@ -46,7 +45,7 @@ const GiftBox = () => {
       setCurrentStep('gift-card-2');
     } else if (currentStep === 'balloon-game') {
       setCurrentStep('gift-card-3');
-    } else if (currentStep === 'puzzle-game') {
+    } else if (currentStep === 'word-scramble') {
       setCurrentStep('gift-card-4');
     } else if (currentStep === 'scratch-game') {
       setCurrentStep('gift-card-5');
@@ -61,7 +60,7 @@ const GiftBox = () => {
     } else if (currentStep === 'gift-card-2') {
       setCurrentStep('balloon-game');
     } else if (currentStep === 'gift-card-3') {
-      setCurrentStep('puzzle-game');
+      setCurrentStep('word-scramble');
     } else if (currentStep === 'gift-card-4') {
       setCurrentStep('scratch-game');
     } else if (currentStep === 'gift-card-5') {
@@ -213,8 +212,8 @@ const GiftBox = () => {
       {currentStep === 'balloon-game' && (
         <BalloonPopGame gifts={availableGifts} onComplete={handleGameComplete} />
       )}
-      {currentStep === 'puzzle-game' && (
-        <PuzzleGame gifts={availableGifts} onComplete={handleGameComplete} />
+      {currentStep === 'word-scramble' && (
+        <WordScrambleGame gifts={availableGifts} onComplete={handleGameComplete} />
       )}
       {currentStep === 'scratch-game' && (
         <ScratchCardGame gifts={availableGifts} onComplete={handleGameComplete} />
