@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Camera, ArrowRight } from 'lucide-react';
+import { Camera, ArrowRight, Gamepad2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const PhotoGallery = () => {
@@ -43,13 +43,10 @@ const PhotoGallery = () => {
     setShowSplash(true);
     setIsAnimating(true);
     
-    // Show splash animation
     setTimeout(() => {
       setShowSplash(false);
-      // Move to next image
       setCurrentImageIndex((prev) => (prev + 1) % photos.length);
       
-      // Reset animation state
       setTimeout(() => {
         setIsAnimating(false);
       }, 300);
@@ -66,7 +63,7 @@ const PhotoGallery = () => {
           <Camera className="w-5 h-5 text-primary" />
           <h1 className="text-2xl font-light text-foreground">Our Beautiful Memories</h1>
         </div>
-        <p className="text-sm text-muted-foreground font-light">Tap the arrow to see more</p>
+        <p className="text-sm text-muted-foreground font-light">Swipe through our precious moments</p>
       </div>
 
       {/* Main Photo Container */}
@@ -142,11 +139,11 @@ const PhotoGallery = () => {
       {/* Navigation Button */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
         <Button
-          onClick={() => navigate('/timeline')}
-          className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-full font-medium transition-all duration-200 hover:scale-105 shadow-lg"
+          onClick={() => navigate('/gift-box')}
+          className="bg-gradient-to-r from-accent to-secondary hover:from-accent/90 hover:to-secondary/90 text-accent-foreground px-10 py-4 rounded-full font-medium text-lg transition-all duration-200 hover:scale-105 shadow-lg"
         >
-          Create Our Timeline
-          <ArrowRight className="ml-2 w-4 h-4" />
+          <Gamepad2 className="mr-3 w-5 h-5" />
+          Let's Play Games! 🎮
         </Button>
       </div>
     </div>

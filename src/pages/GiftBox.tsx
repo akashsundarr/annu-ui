@@ -1,6 +1,7 @@
-import { useState } from 'react';
+
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight, Sparkles, Trophy } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import SpinWheelGame from '@/components/SpinWheelGame';
@@ -27,18 +28,48 @@ const GiftBox = () => {
     { name: 'Spiderman', icon: '🕷️', caption: 'Your favorite superhero adventure 💝' },
     { name: 'Ring', icon: '💍', caption: 'A symbol of our endless bond 💝' },
     { name: 'Drawing Book', icon: '📓', caption: 'For your creative masterpieces 💝' },
-    { name: 'Pencil', icon: '✏️', caption: 'To write our love story 💝' },
+    { name: 'Pencil', icon: '✏️', caption: 'To write our love story together 💝' },
   ]);
   const navigate = useNavigate();
+
+  // Floating hearts background component
+  const FloatingHearts = () => (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      {[...Array(8)].map((_, i) => (
+        <div
+          key={i}
+          className="absolute text-pink-300 text-lg animate-bounce opacity-30"
+          style={{
+            left: `${10 + (i * 12)}%`,
+            top: `${15 + (i % 3) * 25}%`,
+            animationDelay: `${i * 0.7}s`,
+            animationDuration: '4s',
+          }}
+        >
+          💕
+        </div>
+      ))}
+    </div>
+  );
+
+  // Gift progress indicator
+  const GiftProgress = () => (
+    <div className="absolute top-6 left-1/2 transform -translate-x-1/2 z-20">
+      <div className="flex items-center gap-2 bg-white/90 backdrop-blur-sm rounded-full px-4 py-2 shadow-lg">
+        <Trophy className="w-4 h-4 text-primary" />
+        <span className="text-sm font-medium text-foreground">
+          {wonGifts.length}/6 Gifts Unlocked
+        </span>
+      </div>
+    </div>
+  );
 
   const handleGameComplete = (giftIndex: number) => {
     const gift = availableGifts[giftIndex];
     setWonGifts(prev => [...prev, gift]);
-    
-    // Remove the gift from available gifts
     setAvailableGifts(prev => prev.filter((_, index) => index !== giftIndex));
     
-    // Determine next step based on current step
+    // Navigate to gift card display
     if (currentStep === 'spin-wheel') {
       setCurrentStep('gift-card-1');
     } else if (currentStep === 'memory-game') {
@@ -70,39 +101,30 @@ const GiftBox = () => {
     }
   };
 
-  // Floating hearts background
-  const FloatingHearts = () => (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden">
-      {[...Array(8)].map((_, i) => (
-        <div
-          key={i}
-          className="absolute text-pink-300 text-lg animate-bounce opacity-30"
-          style={{
-            left: `${10 + (i * 12)}%`,
-            top: `${15 + (i % 3) * 25}%`,
-            animationDelay: `${i * 0.7}s`,
-            animationDuration: '4s',
-          }}
-        >
-          💕
-        </div>
-      ))}
-    </div>
-  );
-
   // Start Screen
   if (currentStep === 'start') {
     return (
       <div className="min-h-screen flex items-center justify-center px-6 bg-background relative">
         <FloatingHearts />
         <div className="max-w-md mx-auto text-center space-y-8 z-10">
-          <div className="space-y-4 fade-in-minimal">
+          <div className="space-y-6 fade-in-minimal">
+            <div className="text-6xl gentle-float">🎁</div>
             <h1 className="text-4xl font-light text-foreground mb-4">
-              Welcome to Your Surprise Gift Hunt 💛
+              Your Gift Adventure Begins
             </h1>
             <p className="text-lg text-muted-foreground font-light leading-relaxed">
-              Play small games to win all your hidden gifts!
+              Play 6 magical games to unlock all your special gifts!
             </p>
+            
+            {/* Gift Preview */}
+            <div className="grid grid-cols-3 gap-3 mt-6">
+              {availableGifts.map((gift, index) => (
+                <div key={index} className="text-center p-3 bg-card rounded-lg border gentle-float" style={{animationDelay: `${index * 0.1}s`}}>
+                  <div className="text-2xl mb-1">{gift.icon}</div>
+                  <div className="text-xs text-muted-foreground">{gift.name}</div>
+                </div>
+              ))}
+            </div>
           </div>
           
           <div className="scale-in-minimal">
@@ -111,7 +133,7 @@ const GiftBox = () => {
               className="bg-gradient-to-r from-accent to-secondary hover:from-accent/90 hover:to-secondary/90 text-accent-foreground px-8 py-4 rounded-full text-lg font-medium transition-all duration-200 hover:scale-105 shadow-lg"
             >
               <Sparkles className="mr-2 w-5 h-5" />
-              Start the Game
+              Start Playing! 🎮
             </Button>
           </div>
         </div>
@@ -127,16 +149,17 @@ const GiftBox = () => {
     return (
       <div className="min-h-screen flex items-center justify-center px-6 bg-background relative">
         <FloatingHearts />
+        <GiftProgress />
         <div className="max-w-md mx-auto text-center space-y-8 z-10">
-          <Card className="minimal-card scale-in-minimal">
+          <Card className="minimal-card scale-in-minimal bg-gradient-to-br from-card to-accent/10 border-accent/20">
             <CardContent className="p-8 text-center">
-              <div className="text-6xl mb-4 gentle-float">
+              <div className="text-8xl mb-6 gentle-float">
                 {latestGift?.icon}
               </div>
-              <h3 className="text-2xl font-medium text-foreground mb-3">
+              <h3 className="text-3xl font-medium text-foreground mb-4">
                 {latestGift?.name}
               </h3>
-              <p className="text-muted-foreground font-light italic">
+              <p className="text-muted-foreground font-light italic text-lg leading-relaxed">
                 {latestGift?.caption}
               </p>
             </CardContent>
@@ -146,7 +169,7 @@ const GiftBox = () => {
             onClick={handleNextGame}
             className="bg-gradient-to-r from-accent to-secondary hover:from-accent/90 hover:to-secondary/90 text-accent-foreground px-8 py-3 rounded-full font-medium transition-all duration-200 hover:scale-105 shadow-lg"
           >
-            {isLastGift ? 'Finish Game' : 'Play Next Game'}
+            {isLastGift ? '🎉 See All Gifts!' : '🎮 Next Game'}
             <ArrowRight className="ml-2 w-4 h-4" />
           </Button>
         </div>
@@ -159,11 +182,12 @@ const GiftBox = () => {
     return (
       <div className="min-h-screen flex items-center justify-center px-6 bg-background relative">
         <FloatingHearts />
+        {/* Celebration Stars */}
         <div className="absolute inset-0 pointer-events-none">
           {[...Array(15)].map((_, i) => (
             <div
               key={i}
-              className="absolute text-yellow-300 text-2xl animate-pulse"
+              className="absolute text-yellow-300 text-3xl animate-pulse"
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
@@ -178,20 +202,30 @@ const GiftBox = () => {
         
         <div className="max-w-md mx-auto text-center space-y-8 z-10">
           <div className="space-y-6 fade-in-minimal">
-            <div className="text-6xl gentle-float">🎉</div>
-            <h1 className="text-3xl font-light text-foreground">
-              You've unlocked all gifts! 💌
+            <div className="text-8xl gentle-float">🎉</div>
+            <h1 className="text-4xl font-light text-foreground">
+              All Gifts Unlocked! 💌
             </h1>
-            <p className="text-muted-foreground font-light">
+            <p className="text-lg text-muted-foreground font-light">
               Amazing job completing all the games!
             </p>
+            
+            {/* All Gifts Display */}
+            <div className="grid grid-cols-3 gap-4 mt-8">
+              {wonGifts.map((gift, index) => (
+                <div key={index} className="text-center p-4 bg-gradient-to-br from-card to-accent/10 rounded-lg border-accent/20 border gentle-float" style={{animationDelay: `${index * 0.1}s`}}>
+                  <div className="text-3xl mb-2">{gift.icon}</div>
+                  <div className="text-sm text-muted-foreground">{gift.name}</div>
+                </div>
+              ))}
+            </div>
           </div>
           
           <Button
-            onClick={() => navigate('/photo-gallery')}
+            onClick={() => navigate('/timeline')}
             className="bg-gradient-to-r from-accent to-secondary hover:from-accent/90 hover:to-secondary/90 text-accent-foreground px-8 py-3 rounded-full font-medium transition-all duration-200 hover:scale-105 shadow-lg"
           >
-            Open Gallery of Memories
+            ❤️ Create Our Timeline
             <ArrowRight className="ml-2 w-4 h-4" />
           </Button>
         </div>
@@ -203,6 +237,7 @@ const GiftBox = () => {
   return (
     <div className="min-h-screen bg-background relative">
       <FloatingHearts />
+      <GiftProgress />
       {currentStep === 'spin-wheel' && (
         <SpinWheelGame gifts={availableGifts} onComplete={handleGameComplete} />
       )}
