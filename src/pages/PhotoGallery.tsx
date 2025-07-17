@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Camera, ArrowRight, Heart } from 'lucide-react';
+import { Camera, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const PhotoGallery = () => {
@@ -37,7 +37,7 @@ const PhotoGallery = () => {
     },
   ];
 
-  const handleHeartClick = () => {
+  const handleArrowClick = () => {
     if (isAnimating) return;
     
     setShowSplash(true);
@@ -66,7 +66,7 @@ const PhotoGallery = () => {
           <Camera className="w-5 h-5 text-primary" />
           <h1 className="text-2xl font-light text-foreground">Our Beautiful Memories</h1>
         </div>
-        <p className="text-sm text-muted-foreground font-light">Tap the heart to see more</p>
+        <p className="text-sm text-muted-foreground font-light">Tap the arrow to see more</p>
       </div>
 
       {/* Main Photo Container */}
@@ -88,27 +88,26 @@ const PhotoGallery = () => {
               }`}
             />
             
-            {/* Heart Button */}
+            {/* Arrow Button */}
             <button
-              onClick={handleHeartClick}
+              onClick={handleArrowClick}
               disabled={isAnimating}
               className={`absolute top-4 right-4 w-12 h-12 rounded-full bg-white/90 backdrop-blur-sm 
                          flex items-center justify-center transition-all duration-200 hover:scale-110 
                          hover:bg-white shadow-lg ${isAnimating ? 'pointer-events-none' : ''}`}
             >
-              <Heart 
-                className={`w-6 h-6 text-red-500 transition-all duration-200 ${
+              <ArrowRight 
+                className={`w-6 h-6 text-primary transition-all duration-200 ${
                   isAnimating ? 'scale-125' : 'scale-100'
                 }`} 
-                fill="currentColor" 
               />
             </button>
 
-            {/* Heart Splash Animation */}
+            {/* Arrow Splash Animation */}
             {showSplash && (
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                 <div className="heart-splash">
-                  <Heart className="w-16 h-16 text-red-500" fill="currentColor" />
+                  <ArrowRight className="w-16 h-16 text-primary" />
                 </div>
               </div>
             )}
@@ -143,10 +142,10 @@ const PhotoGallery = () => {
       {/* Navigation Button */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
         <Button
-          onClick={() => navigate('/gift-box')}
+          onClick={() => navigate('/timeline')}
           className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-full font-medium transition-all duration-200 hover:scale-105 shadow-lg"
         >
-          Open your gift box
+          Create Our Timeline
           <ArrowRight className="ml-2 w-4 h-4" />
         </Button>
       </div>

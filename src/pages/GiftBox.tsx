@@ -7,8 +7,11 @@ import { Card, CardContent } from '@/components/ui/card';
 import SpinWheelGame from '@/components/SpinWheelGame';
 import MemoryCardGame from '@/components/MemoryCardGame';
 import BalloonPopGame from '@/components/BalloonPopGame';
+import PuzzleGame from '@/components/PuzzleGame';
+import ScratchCardGame from '@/components/ScratchCardGame';
+import QuizGame from '@/components/QuizGame';
 
-type GameStep = 'start' | 'spin-wheel' | 'gift-card-1' | 'memory-game' | 'gift-card-2' | 'balloon-game' | 'gift-card-3' | 'final';
+type GameStep = 'start' | 'spin-wheel' | 'gift-card-1' | 'memory-game' | 'gift-card-2' | 'balloon-game' | 'gift-card-3' | 'puzzle-game' | 'gift-card-4' | 'scratch-game' | 'gift-card-5' | 'quiz-game' | 'gift-card-6' | 'final';
 
 interface Gift {
   name: string;
@@ -19,20 +22,22 @@ interface Gift {
 const GiftBox = () => {
   const [currentStep, setCurrentStep] = useState<GameStep>('start');
   const [wonGifts, setWonGifts] = useState<Gift[]>([]);
-  const navigate = useNavigate();
-
-  const gifts: Gift[] = [
+  const [availableGifts, setAvailableGifts] = useState<Gift[]>([
     { name: 'Chocolate', icon: '🍫', caption: 'Sweet treats for my sweet love 💝' },
     { name: 'Lipstick', icon: '💄', caption: 'To make your beautiful smile even brighter 💝' },
     { name: 'Spiderman', icon: '🕷️', caption: 'Your favorite superhero adventure 💝' },
     { name: 'Ring', icon: '💍', caption: 'A symbol of our endless bond 💝' },
     { name: 'Drawing Book', icon: '📓', caption: 'For your creative masterpieces 💝' },
     { name: 'Pencil', icon: '✏️', caption: 'To write our love story 💝' },
-  ];
+  ]);
+  const navigate = useNavigate();
 
   const handleGameComplete = (giftIndex: number) => {
-    const gift = gifts[giftIndex];
+    const gift = availableGifts[giftIndex];
     setWonGifts(prev => [...prev, gift]);
+    
+    // Remove the gift from available gifts
+    setAvailableGifts(prev => prev.filter((_, index) => index !== giftIndex));
     
     // Determine next step based on current step
     if (currentStep === 'spin-wheel') {
@@ -41,6 +46,12 @@ const GiftBox = () => {
       setCurrentStep('gift-card-2');
     } else if (currentStep === 'balloon-game') {
       setCurrentStep('gift-card-3');
+    } else if (currentStep === 'puzzle-game') {
+      setCurrentStep('gift-card-4');
+    } else if (currentStep === 'scratch-game') {
+      setCurrentStep('gift-card-5');
+    } else if (currentStep === 'quiz-game') {
+      setCurrentStep('gift-card-6');
     }
   };
 
@@ -50,6 +61,12 @@ const GiftBox = () => {
     } else if (currentStep === 'gift-card-2') {
       setCurrentStep('balloon-game');
     } else if (currentStep === 'gift-card-3') {
+      setCurrentStep('puzzle-game');
+    } else if (currentStep === 'gift-card-4') {
+      setCurrentStep('scratch-game');
+    } else if (currentStep === 'gift-card-5') {
+      setCurrentStep('quiz-game');
+    } else if (currentStep === 'gift-card-6') {
       setCurrentStep('final');
     }
   };
@@ -106,6 +123,8 @@ const GiftBox = () => {
   // Gift Card Display
   if (currentStep.startsWith('gift-card')) {
     const latestGift = wonGifts[wonGifts.length - 1];
+    const isLastGift = currentStep === 'gift-card-6';
+    
     return (
       <div className="min-h-screen flex items-center justify-center px-6 bg-background relative">
         <FloatingHearts />
@@ -128,7 +147,7 @@ const GiftBox = () => {
             onClick={handleNextGame}
             className="bg-gradient-to-r from-accent to-secondary hover:from-accent/90 hover:to-secondary/90 text-accent-foreground px-8 py-3 rounded-full font-medium transition-all duration-200 hover:scale-105 shadow-lg"
           >
-            {currentStep === 'gift-card-3' ? 'Finish Game' : 'Play Next Game'}
+            {isLastGift ? 'Finish Game' : 'Play Next Game'}
             <ArrowRight className="ml-2 w-4 h-4" />
           </Button>
         </div>
@@ -136,7 +155,7 @@ const GiftBox = () => {
     );
   }
 
-  // Final Screen
+  // Final Screen - All gifts collected
   if (currentStep === 'final') {
     return (
       <div className="min-h-screen flex items-center justify-center px-6 bg-background relative">
@@ -186,13 +205,22 @@ const GiftBox = () => {
     <div className="min-h-screen bg-background relative">
       <FloatingHearts />
       {currentStep === 'spin-wheel' && (
-        <SpinWheelGame gifts={gifts} onComplete={handleGameComplete} />
+        <SpinWheelGame gifts={availableGifts} onComplete={handleGameComplete} />
       )}
       {currentStep === 'memory-game' && (
-        <MemoryCardGame gifts={gifts} onComplete={handleGameComplete} />
+        <MemoryCardGame gifts={availableGifts} onComplete={handleGameComplete} />
       )}
       {currentStep === 'balloon-game' && (
-        <BalloonPopGame gifts={gifts} onComplete={handleGameComplete} />
+        <BalloonPopGame gifts={availableGifts} onComplete={handleGameComplete} />
+      )}
+      {currentStep === 'puzzle-game' && (
+        <PuzzleGame gifts={availableGifts} onComplete={handleGameComplete} />
+      )}
+      {currentStep === 'scratch-game' && (
+        <ScratchCardGame gifts={availableGifts} onComplete={handleGameComplete} />
+      )}
+      {currentStep === 'quiz-game' && (
+        <QuizGame gifts={availableGifts} onComplete={handleGameComplete} />
       )}
     </div>
   );
