@@ -1,41 +1,134 @@
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Gift, Heart, ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import SpinWheel from '@/components/SpinWheel';
-import MemoryGallery from '@/components/MemoryGallery';
+import SpinWheelGame from '@/components/SpinWheelGame';
+import MemoryCardGame from '@/components/MemoryCardGame';
+import BalloonPopGame from '@/components/BalloonPopGame';
+
+type GameStep = 'start' | 'spin-wheel' | 'gift-card-1' | 'memory-game' | 'gift-card-2' | 'balloon-game' | 'gift-card-3' | 'final';
+
+interface Gift {
+  name: string;
+  icon: string;
+  caption: string;
+}
 
 const GiftBox = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [showContents, setShowContents] = useState(false);
-  const [showSpinWheel, setShowSpinWheel] = useState(false);
+  const [currentStep, setCurrentStep] = useState<GameStep>('start');
+  const [wonGifts, setWonGifts] = useState<Gift[]>([]);
   const navigate = useNavigate();
 
-  const openGiftBox = () => {
-    setIsOpen(true);
-    setTimeout(() => setShowContents(true), 600);
+  const gifts: Gift[] = [
+    { name: 'Chocolate', icon: '🍫', caption: 'Sweet treats for my sweet love 💝' },
+    { name: 'Lipstick', icon: '💄', caption: 'To make your beautiful smile even brighter 💝' },
+    { name: 'Spiderman', icon: '🕷️', caption: 'Your favorite superhero adventure 💝' },
+    { name: 'Ring', icon: '💍', caption: 'A symbol of our endless bond 💝' },
+    { name: 'Drawing Book', icon: '📓', caption: 'For your creative masterpieces 💝' },
+    { name: 'Pencil', icon: '✏️', caption: 'To write our love story 💝' },
+  ];
+
+  const handleGameComplete = (giftIndex: number) => {
+    const gift = gifts[giftIndex];
+    setWonGifts(prev => [...prev, gift]);
+    
+    // Determine next step based on current step
+    if (currentStep === 'spin-wheel') {
+      setCurrentStep('gift-card-1');
+    } else if (currentStep === 'memory-game') {
+      setCurrentStep('gift-card-2');
+    } else if (currentStep === 'balloon-game') {
+      setCurrentStep('gift-card-3');
+    }
   };
 
-  const proceedToSpinWheel = () => {
-    setShowSpinWheel(true);
+  const handleNextGame = () => {
+    if (currentStep === 'gift-card-1') {
+      setCurrentStep('memory-game');
+    } else if (currentStep === 'gift-card-2') {
+      setCurrentStep('balloon-game');
+    } else if (currentStep === 'gift-card-3') {
+      setCurrentStep('final');
+    }
   };
 
-  // Show Spin Wheel if requested
-  if (showSpinWheel) {
+  // Floating hearts background
+  const FloatingHearts = () => (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      {[...Array(8)].map((_, i) => (
+        <div
+          key={i}
+          className="absolute text-pink-300 text-lg animate-bounce opacity-30"
+          style={{
+            left: `${10 + (i * 12)}%`,
+            top: `${15 + (i % 3) * 25}%`,
+            animationDelay: `${i * 0.7}s`,
+            animationDuration: '4s',
+          }}
+        >
+          💕
+        </div>
+      ))}
+    </div>
+  );
+
+  // Start Screen
+  if (currentStep === 'start') {
     return (
-      <div>
-        <SpinWheel />
-        <MemoryGallery />
-        
-        {/* Navigation to next section */}
-        <div className="text-center py-8 bg-gradient-to-br from-pink-50 to-yellow-50">
+      <div className="min-h-screen flex items-center justify-center px-6 bg-background relative">
+        <FloatingHearts />
+        <div className="max-w-md mx-auto text-center space-y-8 z-10">
+          <div className="space-y-4 fade-in-minimal">
+            <h1 className="text-4xl font-light text-foreground mb-4">
+              Welcome to Your Surprise Gift Hunt 💛
+            </h1>
+            <p className="text-lg text-muted-foreground font-light leading-relaxed">
+              Play small games to win all your hidden gifts!
+            </p>
+          </div>
+          
+          <div className="scale-in-minimal">
+            <Button
+              onClick={() => setCurrentStep('spin-wheel')}
+              className="bg-gradient-to-r from-accent to-secondary hover:from-accent/90 hover:to-secondary/90 text-accent-foreground px-8 py-4 rounded-full text-lg font-medium transition-all duration-200 hover:scale-105 shadow-lg"
+            >
+              <Sparkles className="mr-2 w-5 h-5" />
+              Start the Game
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Gift Card Display
+  if (currentStep.startsWith('gift-card')) {
+    const latestGift = wonGifts[wonGifts.length - 1];
+    return (
+      <div className="min-h-screen flex items-center justify-center px-6 bg-background relative">
+        <FloatingHearts />
+        <div className="max-w-md mx-auto text-center space-y-8 z-10">
+          <Card className="minimal-card scale-in-minimal">
+            <CardContent className="p-8 text-center">
+              <div className="text-6xl mb-4 gentle-float">
+                {latestGift?.icon}
+              </div>
+              <h3 className="text-2xl font-medium text-foreground mb-3">
+                {latestGift?.name}
+              </h3>
+              <p className="text-muted-foreground font-light italic">
+                {latestGift?.caption}
+              </p>
+            </CardContent>
+          </Card>
+          
           <Button
-            onClick={() => navigate('/heart-game')}
-            className="bg-gradient-to-r from-pink-400 to-purple-400 hover:from-pink-500 hover:to-purple-500 text-white px-8 py-3 rounded-full font-medium transition-all duration-200 hover:scale-105 shadow-lg"
+            onClick={handleNextGame}
+            className="bg-gradient-to-r from-accent to-secondary hover:from-accent/90 hover:to-secondary/90 text-accent-foreground px-8 py-3 rounded-full font-medium transition-all duration-200 hover:scale-105 shadow-lg"
           >
-            Continue to Heart Game
+            {currentStep === 'gift-card-3' ? 'Finish Game' : 'Play Next Game'}
             <ArrowRight className="ml-2 w-4 h-4" />
           </Button>
         </div>
@@ -43,107 +136,64 @@ const GiftBox = () => {
     );
   }
 
-  return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-6 bg-background">
-      <div className="max-w-2xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-12 fade-in-minimal">
-          <h1 className="text-3xl font-light text-foreground mb-4">Your Special Gift Box</h1>
-          <p className="text-muted-foreground font-light">Click the box to reveal your surprises</p>
-        </div>
-
-        {/* Gift Box */}
-        {!isOpen ? (
-          <div className="text-center scale-in-minimal">
-            <Card 
-              className="minimal-card w-48 h-48 mx-auto cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-lg"
-              onClick={openGiftBox}
+  // Final Screen
+  if (currentStep === 'final') {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-6 bg-background relative">
+        <FloatingHearts />
+        <div className="absolute inset-0 pointer-events-none">
+          {[...Array(15)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute text-yellow-300 text-2xl animate-pulse"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animationDelay: `${i * 0.3}s`,
+                animationDuration: '2s',
+              }}
             >
-              <CardContent className="flex items-center justify-center h-full p-0">
-                <div className="text-center">
-                  <div className="w-16 h-16 rounded-full bg-accent mx-auto mb-4 flex items-center justify-center">
-                    <Gift className="w-8 h-8 text-primary" />
-                  </div>
-                  <p className="text-sm text-muted-foreground font-light">Click to open</p>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        ) : (
-          showContents && (
-            <div className="space-y-6 fade-in-minimal">
-              {/* Love Letter */}
-              <Card className="minimal-card">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <Heart className="w-5 h-5 text-primary" fill="currentColor" />
-                    <h3 className="text-lg font-medium text-foreground">A Love Letter</h3>
-                  </div>
-                  <div className="space-y-4">
-                    <p className="text-muted-foreground leading-relaxed font-light italic">
-                      "My dearest annuBee, you are the sunshine in my darkest days, 
-                      the melody in my silence, and the reason I believe in forever. 
-                      Every moment with you feels like a beautiful dream I never want to wake up from. 
-                      Happy Birthday to the love of my life!"
-                    </p>
-                    <p className="text-right text-primary font-medium text-sm">
-                      - With all my love, akashee
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Coupon */}
-              <Card className="minimal-card">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <Sparkles className="w-5 h-5 text-primary" />
-                    <h3 className="text-lg font-medium text-foreground">Special Coupon</h3>
-                  </div>
-                  <Card className="bg-accent/30 border-2 border-dashed border-accent">
-                    <CardContent className="p-4 text-center">
-                      <p className="text-base font-medium text-foreground mb-2">
-                        🎫 One Surprise Date 🎫
-                      </p>
-                      <p className="text-sm text-muted-foreground mb-2">
-                        "Just say when, and I'll plan the perfect day for us!"
-                      </p>
-                      <p className="text-xs text-muted-foreground/70">
-                        *Valid forever, no expiration date
-                      </p>
-                    </CardContent>
-                  </Card>
-                </CardContent>
-              </Card>
-
-              {/* Rose */}
-              <div className="text-center">
-                <div className="text-4xl gentle-float">🌹</div>
-              </div>
+              ✨
             </div>
-          )
-        )}
-
-        {/* Navigation Buttons */}
-        {showContents && (
-          <div className="text-center mt-8 space-y-4 scale-in-minimal">
-            <Button
-              onClick={proceedToSpinWheel}
-              className="bg-gradient-to-r from-pink-400 to-purple-400 hover:from-pink-500 hover:to-purple-500 text-white px-8 py-3 rounded-full font-medium transition-all duration-200 hover:scale-105 shadow-lg mb-4 w-full"
-            >
-              Play Spin the Wheel Game 🎡
-            </Button>
-            <Button
-              onClick={() => navigate('/heart-game')}
-              variant="outline"
-              className="px-8 py-3 font-medium border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-200 w-full"
-            >
-              Skip to Heart Game
-              <ArrowRight className="ml-2 w-4 h-4" />
-            </Button>
+          ))}
+        </div>
+        
+        <div className="max-w-md mx-auto text-center space-y-8 z-10">
+          <div className="space-y-6 fade-in-minimal">
+            <div className="text-6xl gentle-float">🎉</div>
+            <h1 className="text-3xl font-light text-foreground">
+              You've unlocked all gifts! 💌
+            </h1>
+            <p className="text-muted-foreground font-light">
+              Amazing job completing all the games!
+            </p>
           </div>
-        )}
+          
+          <Button
+            onClick={() => navigate('/photo-gallery')}
+            className="bg-gradient-to-r from-accent to-secondary hover:from-accent/90 hover:to-secondary/90 text-accent-foreground px-8 py-3 rounded-full font-medium transition-all duration-200 hover:scale-105 shadow-lg"
+          >
+            Open Gallery of Memories
+            <ArrowRight className="ml-2 w-4 h-4" />
+          </Button>
+        </div>
       </div>
+    );
+  }
+
+  // Game Components
+  return (
+    <div className="min-h-screen bg-background relative">
+      <FloatingHearts />
+      {currentStep === 'spin-wheel' && (
+        <SpinWheelGame gifts={gifts} onComplete={handleGameComplete} />
+      )}
+      {currentStep === 'memory-game' && (
+        <MemoryCardGame gifts={gifts} onComplete={handleGameComplete} />
+      )}
+      {currentStep === 'balloon-game' && (
+        <BalloonPopGame gifts={gifts} onComplete={handleGameComplete} />
+      )}
     </div>
   );
 };
