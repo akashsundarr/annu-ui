@@ -4,16 +4,44 @@ import { useNavigate } from 'react-router-dom';
 import { Gift, Heart, ArrowRight, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import SpinWheel from '@/components/SpinWheel';
+import MemoryGallery from '@/components/MemoryGallery';
 
 const GiftBox = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showContents, setShowContents] = useState(false);
+  const [showSpinWheel, setShowSpinWheel] = useState(false);
   const navigate = useNavigate();
 
   const openGiftBox = () => {
     setIsOpen(true);
     setTimeout(() => setShowContents(true), 600);
   };
+
+  const proceedToSpinWheel = () => {
+    setShowSpinWheel(true);
+  };
+
+  // Show Spin Wheel if requested
+  if (showSpinWheel) {
+    return (
+      <div>
+        <SpinWheel />
+        <MemoryGallery />
+        
+        {/* Navigation to next section */}
+        <div className="text-center py-8 bg-gradient-to-br from-pink-50 to-yellow-50">
+          <Button
+            onClick={() => navigate('/heart-game')}
+            className="bg-gradient-to-r from-pink-400 to-purple-400 hover:from-pink-500 hover:to-purple-500 text-white px-8 py-3 rounded-full font-medium transition-all duration-200 hover:scale-105 shadow-lg"
+          >
+            Continue to Heart Game
+            <ArrowRight className="ml-2 w-4 h-4" />
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-6 bg-background">
@@ -96,15 +124,21 @@ const GiftBox = () => {
           )
         )}
 
-        {/* Navigation Button */}
+        {/* Navigation Buttons */}
         {showContents && (
-          <div className="text-center mt-8 scale-in-minimal">
+          <div className="text-center mt-8 space-y-4 scale-in-minimal">
+            <Button
+              onClick={proceedToSpinWheel}
+              className="bg-gradient-to-r from-pink-400 to-purple-400 hover:from-pink-500 hover:to-purple-500 text-white px-8 py-3 rounded-full font-medium transition-all duration-200 hover:scale-105 shadow-lg mb-4 w-full"
+            >
+              Play Spin the Wheel Game 🎡
+            </Button>
             <Button
               onClick={() => navigate('/heart-game')}
               variant="outline"
-              className="px-8 py-3 font-medium border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-200"
+              className="px-8 py-3 font-medium border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-200 w-full"
             >
-              Play the heart game
+              Skip to Heart Game
               <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
           </div>
