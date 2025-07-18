@@ -45,28 +45,28 @@ const Timeline = () => {
 
   return (
     <div className="min-h-screen py-12 px-6 bg-background relative overflow-hidden">
-      {/* Floating Hearts Background */}
-      <div className="absolute inset-0 pointer-events-none">
+      {/* Subtle floating elements */}
+      <div className="absolute inset-0 pointer-events-none opacity-20">
         {[...Array(6)].map((_, i) => (
           <div
             key={i}
-            className="absolute text-pink-200 text-xl animate-pulse opacity-20"
+            className="absolute w-3 h-3 bg-accent rounded-full gentle-float"
             style={{
               left: `${15 + (i * 15)}%`,
               top: `${20 + (i % 2) * 30}%`,
               animationDelay: `${i * 1.2}s`,
               animationDuration: '6s',
             }}
-          >
-            💕
-          </div>
+          />
         ))}
       </div>
 
       <div className="max-w-4xl mx-auto relative z-10">
         {/* Header */}
         <div className="text-center mb-16 fade-in-minimal">
-          <div className="text-6xl mb-6 gentle-float">💕</div>
+          <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-primary to-accent rounded-2xl flex items-center justify-center gentle-float">
+            <Heart className="w-8 h-8 text-primary-foreground" fill="currentColor" />
+          </div>
           <h1 className="text-4xl font-light text-foreground mb-4">Our Love Timeline</h1>
           <p className="text-xl text-muted-foreground font-light leading-relaxed">
             Create your beautiful journey from the beginning to forever
@@ -77,7 +77,7 @@ const Timeline = () => {
             <Button
               onClick={addNewEntry}
               variant="outline"
-              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-6 py-3 rounded-full"
+              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-6 py-3 rounded-full transition-all duration-200"
             >
               <Plus className="mr-2 w-4 h-4" />
               Add Our Story
@@ -156,10 +156,10 @@ const Timeline = () => {
             </div>
             <Button
               onClick={addNewEntry}
-              className="bg-gradient-to-r from-accent to-secondary hover:from-accent/90 hover:to-secondary/90 text-accent-foreground px-8 py-4 rounded-full font-medium text-lg transition-all duration-200 hover:scale-105"
+              className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground px-8 py-4 rounded-full font-medium text-lg transition-all duration-200 hover:scale-105 border-0"
             >
               <Plus className="mr-2 w-5 h-5" />
-              Start Our Timeline ❤️
+              Start Our Timeline
             </Button>
           </div>
         )}
@@ -169,7 +169,9 @@ const Timeline = () => {
           <div className="text-center mt-20 space-y-8">
             <Card className="minimal-card bg-gradient-to-br from-card to-accent/10 border-accent/20">
               <CardContent className="p-10">
-                <div className="text-6xl mb-6 gentle-float">💖</div>
+                <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-primary to-accent rounded-2xl flex items-center justify-center gentle-float">
+                  <Heart className="w-8 h-8 text-primary-foreground" fill="currentColor" />
+                </div>
                 <h2 className="text-3xl font-light text-foreground mb-6">
                   Here's to forever, just you and me
                 </h2>
@@ -180,7 +182,7 @@ const Timeline = () => {
                 </p>
                 <div className="text-right">
                   <p className="text-lg text-primary font-medium">
-                    Forever yours, akashee 💛
+                    Forever yours, akashee
                   </p>
                 </div>
               </CardContent>

@@ -140,10 +140,10 @@ const PhotoGallery = () => {
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
         <Button
           onClick={() => navigate('/gift-box')}
-          className="bg-gradient-to-r from-accent to-secondary hover:from-accent/90 hover:to-secondary/90 text-accent-foreground px-10 py-4 rounded-full font-medium text-lg transition-all duration-200 hover:scale-105 shadow-lg"
+          className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground px-10 py-4 rounded-full font-medium text-lg transition-all duration-200 hover:scale-105 shadow-lg border-0"
         >
           <Gamepad2 className="mr-3 w-5 h-5" />
-          Let's Play Games! 🎮
+          Let's Play Games
         </Button>
       </div>
     </div>

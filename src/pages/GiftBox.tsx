@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, Sparkles, Trophy } from 'lucide-react';
+import { ArrowRight, Sparkles, Trophy, Gift } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import SpinWheelGame from '@/components/SpinWheelGame';
@@ -108,12 +108,14 @@ const GiftBox = () => {
         <FloatingHearts />
         <div className="max-w-md mx-auto text-center space-y-8 z-10">
           <div className="space-y-6 fade-in-minimal">
-            <div className="text-6xl gentle-float">🎁</div>
+            <div className="w-16 h-16 mx-auto bg-gradient-to-br from-primary to-accent rounded-2xl flex items-center justify-center gentle-float">
+              <Gift className="w-8 h-8 text-primary-foreground" />
+            </div>
             <h1 className="text-4xl font-light text-foreground mb-4">
               Your Gift Adventure Begins
             </h1>
             <p className="text-lg text-muted-foreground font-light leading-relaxed">
-              Play 6 magical games to unlock all your special gifts!
+              Play 6 magical games to unlock all your special gifts
             </p>
             
             {/* Gift Preview */}
@@ -130,10 +132,10 @@ const GiftBox = () => {
           <div className="scale-in-minimal">
             <Button
               onClick={() => setCurrentStep('spin-wheel')}
-              className="bg-gradient-to-r from-accent to-secondary hover:from-accent/90 hover:to-secondary/90 text-accent-foreground px-8 py-4 rounded-full text-lg font-medium transition-all duration-200 hover:scale-105 shadow-lg"
+              className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground px-8 py-4 rounded-full text-lg font-medium transition-all duration-200 hover:scale-105 shadow-lg border-0"
             >
               <Sparkles className="mr-2 w-5 h-5" />
-              Start Playing! 🎮
+              Start Playing
             </Button>
           </div>
         </div>
@@ -167,9 +169,9 @@ const GiftBox = () => {
           
           <Button
             onClick={handleNextGame}
-            className="bg-gradient-to-r from-accent to-secondary hover:from-accent/90 hover:to-secondary/90 text-accent-foreground px-8 py-3 rounded-full font-medium transition-all duration-200 hover:scale-105 shadow-lg"
+            className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground px-8 py-3 rounded-full font-medium transition-all duration-200 hover:scale-105 shadow-lg border-0"
           >
-            {isLastGift ? '🎉 See All Gifts!' : '🎮 Next Game'}
+            {isLastGift ? 'See All Gifts' : 'Next Game'}
             <ArrowRight className="ml-2 w-4 h-4" />
           </Button>
         </div>
@@ -182,32 +184,32 @@ const GiftBox = () => {
     return (
       <div className="min-h-screen flex items-center justify-center px-6 bg-background relative">
         <FloatingHearts />
-        {/* Celebration Stars */}
-        <div className="absolute inset-0 pointer-events-none">
-          {[...Array(15)].map((_, i) => (
+        {/* Subtle celebration particles */}
+        <div className="absolute inset-0 pointer-events-none opacity-40">
+          {[...Array(12)].map((_, i) => (
             <div
               key={i}
-              className="absolute text-yellow-300 text-3xl animate-pulse"
+              className="absolute w-2 h-2 bg-accent rounded-full animate-pulse"
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
                 animationDelay: `${i * 0.3}s`,
-                animationDuration: '2s',
+                animationDuration: '3s',
               }}
-            >
-              ✨
-            </div>
+            />
           ))}
         </div>
         
         <div className="max-w-md mx-auto text-center space-y-8 z-10">
           <div className="space-y-6 fade-in-minimal">
-            <div className="text-8xl gentle-float">🎉</div>
+            <div className="w-20 h-20 mx-auto bg-gradient-to-br from-primary to-accent rounded-2xl flex items-center justify-center gentle-float">
+              <Gift className="w-10 h-10 text-primary-foreground" />
+            </div>
             <h1 className="text-4xl font-light text-foreground">
-              All Gifts Unlocked! 💌
+              All Gifts Unlocked
             </h1>
             <p className="text-lg text-muted-foreground font-light">
-              Amazing job completing all the games!
+              Amazing job completing all the games
             </p>
             
             {/* All Gifts Display */}
@@ -223,9 +225,9 @@ const GiftBox = () => {
           
           <Button
             onClick={() => navigate('/timeline')}
-            className="bg-gradient-to-r from-accent to-secondary hover:from-accent/90 hover:to-secondary/90 text-accent-foreground px-8 py-3 rounded-full font-medium transition-all duration-200 hover:scale-105 shadow-lg"
+            className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground px-8 py-3 rounded-full font-medium transition-all duration-200 hover:scale-105 shadow-lg border-0"
           >
-            ❤️ Create Our Timeline
+            Create Our Timeline
             <ArrowRight className="ml-2 w-4 h-4" />
           </Button>
         </div>

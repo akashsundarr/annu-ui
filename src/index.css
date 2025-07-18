@@ -5,26 +5,37 @@
 
 @layer base {
   :root {
-    --background: 48 100% 98%;
-    --foreground: 84 26% 15%;
-    --card: 60 100% 99%;
-    --card-foreground: 84 26% 15%;
-    --popover: 60 100% 99%;
-    --popover-foreground: 84 26% 15%;
-    --primary: 60 9% 38%;
-    --primary-foreground: 60 100% 98%;
-    --secondary: 53 100% 90%;
-    --secondary-foreground: 84 26% 15%;
-    --muted: 53 30% 95%;
-    --muted-foreground: 84 10% 45%;
-    --accent: 53 85% 85%;
-    --accent-foreground: 84 26% 15%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 60 100% 98%;
-    --border: 53 30% 88%;
-    --input: 53 30% 88%;
-    --ring: 60 9% 38%;
+    --background: 60 30% 98%;
+    --foreground: 80 20% 20%;
+    --card: 60 20% 97%;
+    --card-foreground: 80 20% 25%;
+    --popover: 60 20% 97%;
+    --popover-foreground: 80 20% 25%;
+    --primary: 75 25% 45%;
+    --primary-foreground: 60 30% 98%;
+    --secondary: 85 30% 90%;
+    --secondary-foreground: 80 20% 25%;
+    --muted: 75 15% 94%;
+    --muted-foreground: 80 10% 50%;
+    --accent: 85 40% 85%;
+    --accent-foreground: 80 20% 25%;
+    --destructive: 0 60% 55%;
+    --destructive-foreground: 60 30% 98%;
+    --border: 75 20% 88%;
+    --input: 75 20% 88%;
+    --ring: 75 25% 45%;
     --radius: 0.75rem;
+    
+    /* Custom olive/sage palette */
+    --olive-50: 75 30% 96%;
+    --olive-100: 75 25% 92%;
+    --olive-200: 75 20% 84%;
+    --olive-300: 75 18% 70%;
+    --olive-400: 75 20% 55%;
+    --olive-500: 75 25% 45%;
+    --sage-50: 85 25% 95%;
+    --sage-100: 85 20% 88%;
+    --sage-200: 85 18% 80%;
   }
 }
 
