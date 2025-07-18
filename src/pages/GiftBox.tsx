@@ -8,10 +8,10 @@ import SpinWheelGame from '@/components/SpinWheelGame';
 import MemoryCardGame from '@/components/MemoryCardGame';
 import BalloonPopGame from '@/components/BalloonPopGame';
 import WordScrambleGame from '@/components/WordScrambleGame';
-import TicTacToeGame from '@/components/TicTacToeGame';
+import SimpleHeartGame from '@/components/SimpleHeartGame';
 import QuizGame from '@/components/QuizGame';
 
-type GameStep = 'start' | 'spin-wheel' | 'gift-card-1' | 'memory-game' | 'gift-card-2' | 'balloon-game' | 'gift-card-3' | 'word-scramble' | 'gift-card-4' | 'tic-tac-toe' | 'gift-card-5' | 'quiz-game' | 'gift-card-6' | 'final';
+type GameStep = 'start' | 'spin-wheel' | 'gift-card-1' | 'memory-game' | 'gift-card-2' | 'balloon-game' | 'gift-card-3' | 'word-scramble' | 'gift-card-4' | 'heart-game' | 'gift-card-5' | 'quiz-game' | 'gift-card-6' | 'final';
 
 interface Gift {
   name: string;
@@ -78,7 +78,7 @@ const GiftBox = () => {
       setCurrentStep('gift-card-3');
     } else if (currentStep === 'word-scramble') {
       setCurrentStep('gift-card-4');
-    } else if (currentStep === 'tic-tac-toe') {
+    } else if (currentStep === 'heart-game') {
       setCurrentStep('gift-card-5');
     } else if (currentStep === 'quiz-game') {
       setCurrentStep('gift-card-6');
@@ -93,7 +93,7 @@ const GiftBox = () => {
     } else if (currentStep === 'gift-card-3') {
       setCurrentStep('word-scramble');
     } else if (currentStep === 'gift-card-4') {
-      setCurrentStep('tic-tac-toe');
+      setCurrentStep('heart-game');
     } else if (currentStep === 'gift-card-5') {
       setCurrentStep('quiz-game');
     } else if (currentStep === 'gift-card-6') {
@@ -250,8 +250,8 @@ const GiftBox = () => {
       {currentStep === 'word-scramble' && (
         <WordScrambleGame gifts={availableGifts} onComplete={handleGameComplete} />
       )}
-      {currentStep === 'tic-tac-toe' && (
-        <TicTacToeGame gifts={availableGifts} onComplete={handleGameComplete} />
+      {currentStep === 'heart-game' && (
+        <SimpleHeartGame gifts={availableGifts} onComplete={handleGameComplete} />
       )}
       {currentStep === 'quiz-game' && (
         <QuizGame gifts={availableGifts} onComplete={handleGameComplete} />
