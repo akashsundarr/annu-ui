@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Heart, Gift, Sparkles } from 'lucide-react';
+import { Heart, Gift } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 
@@ -23,49 +23,33 @@ const BirthdayWish = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 bg-background relative overflow-hidden">
-      {/* Subtle floating elements */}
-      <div className="absolute inset-0 pointer-events-none opacity-20">
-        {[...Array(8)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-3 h-3 bg-accent rounded-full gentle-float"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${i * 0.6}s`,
-              animationDuration: '5s',
-            }}
-          />
-        ))}
-      </div>
-
-      <div className="w-full max-w-2xl text-center space-y-12 z-10">
+    <div className="min-h-screen flex items-center justify-center p-8 bg-background font-['Inter']">
+      <div className="w-full max-w-xl text-center space-y-16">
         {/* Main Birthday Message */}
-        <div className={`space-y-8 ${showContent ? 'fade-in-minimal' : 'opacity-0'}`}>
-          <div className="space-y-6">
-            <h1 className="text-6xl md:text-8xl font-extralight text-foreground tracking-tight">
+        <div className={`space-y-12 ${showContent ? 'fade-in-minimal' : 'opacity-0'}`}>
+          <div className="space-y-8">
+            <h1 className="text-5xl md:text-6xl font-semibold text-foreground">
               Happy Birthday
             </h1>
-            <div className="flex items-center justify-center gap-4">
-              <h2 className="text-4xl md:text-6xl font-light text-primary">
+            <div className="flex items-center justify-center gap-3">
+              <h2 className="text-3xl md:text-4xl font-semibold text-accent-foreground">
                 annuBee
               </h2>
-              <Heart className="w-12 h-12 text-accent gentle-float" fill="currentColor" />
+              <Heart className="w-8 h-8 text-accent-foreground" fill="currentColor" />
             </div>
           </div>
         </div>
 
         {/* Heartfelt Message */}
         {showMessage && (
-          <div className="scale-in-minimal">
-            <Card className="minimal-card bg-gradient-to-br from-card to-accent/10 border-accent/20">
+          <div className="fade-in-minimal">
+            <Card className="minimal-card">
               <CardContent className="p-8">
-                <div className="space-y-4">
-                  <p className="text-2xl text-muted-foreground font-light leading-relaxed italic">
+                <div className="space-y-6">
+                  <p className="text-xl text-muted-foreground leading-relaxed">
                     You're the most precious part of my life
                   </p>
-                  <p className="text-lg text-muted-foreground/80 font-light">
+                  <p className="text-base text-muted-foreground">
                     Today is all about celebrating the amazing person you are
                   </p>
                 </div>
@@ -76,12 +60,13 @@ const BirthdayWish = () => {
 
         {/* Gift Button */}
         {showButton && (
-          <div className="scale-in-minimal">
+          <div className="fade-in-minimal">
             <Button
               onClick={() => navigate('/photo-gallery')}
-              className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground px-12 py-4 text-xl font-medium rounded-full transition-all duration-300 hover:scale-105 shadow-lg border-0"
+              variant="secondary"
+              className="px-8 py-3 text-lg font-medium"
             >
-              <Gift className="mr-3 w-6 h-6" />
+              <Gift className="mr-2 w-5 h-5" />
               Open Your First Gift
             </Button>
           </div>
