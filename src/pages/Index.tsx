@@ -19,47 +19,45 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-8 bg-background font-['Inter']">
-      <div className={`w-full max-w-md ${showContent ? 'fade-in-minimal' : 'opacity-0'}`}>
-        <Card className="minimal-card p-12 text-center">
-          <CardContent className="space-y-12 p-0">
-            {/* Clean icon */}
-            <div className="flex justify-center">
-              <div className="w-16 h-16 rounded bg-accent flex items-center justify-center">
-                <Heart className="w-8 h-8 text-accent-foreground" fill="currentColor" />
-              </div>
+    <div className="min-h-screen flex items-center justify-center p-4 md:p-8 bg-background font-['Inter']">
+      <div className={`w-full max-w-md mx-auto ${showContent ? 'fade-in-minimal' : 'opacity-0'}`}>
+        <div className="minimal-card p-8 md:p-12 text-center space-y-8">
+          {/* Clean icon */}
+          <div className="flex justify-center">
+            <div className="w-16 h-16 rounded-xl bg-secondary flex items-center justify-center">
+              <Heart className="w-8 h-8 text-primary" fill="currentColor" />
             </div>
+          </div>
 
-            {/* Typography */}
-            <div className="space-y-8">
-              <h1 className="text-4xl font-semibold text-foreground">
-                Hey Love
-              </h1>
-              <p className="text-lg text-muted-foreground">
-                I made something special just for you
-              </p>
-              <p className="text-sm text-muted-foreground">
-                A digital surprise to celebrate your special day
-              </p>
-            </div>
-
-            {/* CTA Button */}
-            <div>
-              <Button
-                onClick={handleBeginSurprise}
-                variant="secondary"
-                className="w-full py-3 text-base font-medium"
-              >
-                Begin the Surprise
-              </Button>
-            </div>
-
-            {/* Simple signature */}
-            <p className="text-xs text-muted-foreground">
-              With all my love, akashee
+          {/* Typography */}
+          <div className="space-y-6">
+            <h1 className="text-4xl font-semibold text-primary">
+              Hey Love
+            </h1>
+            <p className="text-lg text-foreground leading-relaxed">
+              I made something special just for you
             </p>
-          </CardContent>
-        </Card>
+            <p className="text-sm text-muted-foreground">
+              A digital surprise to celebrate your special day
+            </p>
+          </div>
+
+          {/* CTA Button */}
+          <div className="pt-4">
+            <Button
+              onClick={handleBeginSurprise}
+              className="w-full py-3 text-base font-medium"
+              size="lg"
+            >
+              Begin the Surprise
+            </Button>
+          </div>
+
+          {/* Simple signature */}
+          <p className="text-xs text-muted-foreground pt-2">
+            With all my love, akashee
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -5,27 +5,27 @@
 
 @layer base {
   :root {
-    /* Minimalist olive design system */
-    --background: 82 18% 18%; /* Flat olive green #556B2F */
-    --foreground: 60 100% 100%; /* Pure white text */
-    --card: 82 18% 20%; /* Slightly lighter olive for cards */
-    --card-foreground: 60 100% 100%; /* White text on cards */
-    --popover: 82 18% 20%;
-    --popover-foreground: 60 100% 100%;
-    --primary: 82 18% 18%; /* Olive primary */
-    --primary-foreground: 60 100% 100%; /* White on primary */
-    --secondary: 60 100% 91%; /* Muted yellow #FFFACD */
-    --secondary-foreground: 82 18% 18%; /* Olive text on yellow */
-    --muted: 82 18% 22%; /* Muted olive */
-    --muted-foreground: 60 20% 85%; /* Light text for muted */
-    --accent: 60 100% 91%; /* Muted yellow accent */
-    --accent-foreground: 82 18% 18%; /* Olive on yellow */
+    /* Light romantic olive theme */
+    --background: 45 25% 98%; /* Light beige #fdfbf6 */
+    --foreground: 20 14% 20%; /* Dark neutral text */
+    --card: 0 0% 100%; /* Pure white cards */
+    --card-foreground: 82 25% 15%; /* Olive text on cards */
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 14% 20%;
+    --primary: 82 56% 35%; /* Olive green #6b8e23 */
+    --primary-foreground: 0 0% 100%; /* White on olive */
+    --secondary: 82 30% 92%; /* Light olive bg-olive-100 */
+    --secondary-foreground: 82 40% 25%; /* Dark olive text */
+    --muted: 45 15% 95%; /* Very light beige */
+    --muted-foreground: 20 8% 45%; /* Muted text */
+    --accent: 82 30% 92%; /* Light olive accent */
+    --accent-foreground: 82 40% 25%; /* Dark olive on accent */
     --destructive: 0 60% 55%;
-    --destructive-foreground: 60 100% 100%;
-    --border: 82 18% 25%; /* Subtle olive border */
-    --input: 82 18% 25%;
-    --ring: 60 100% 91%; /* Yellow focus ring */
-    --radius: 0.5rem; /* Reduced radius for minimalism */
+    --destructive-foreground: 0 0% 100%;
+    --border: 82 20% 85%; /* Subtle olive border */
+    --input: 82 20% 85%;
+    --ring: 82 56% 35%; /* Olive focus ring */
+    --radius: 0.75rem;
   }
 }
 
@@ -42,11 +42,11 @@
 
 @layer components {
   .minimal-card {
-    @apply bg-card border border-border rounded;
+    @apply bg-card border-0 rounded-xl;
   }
   
   .fade-in-minimal {
-    animation: fadeInMinimal 0.3s ease-out;
+    animation: fadeInMinimal 0.4s ease-out;
   }
 }
 

@@ -23,19 +23,19 @@ const BirthdayWish = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-8 bg-background font-['Inter']">
-      <div className="w-full max-w-xl text-center space-y-16">
+    <div className="min-h-screen flex items-center justify-center p-4 md:p-8 bg-background font-['Inter']">
+      <div className="w-full max-w-2xl mx-auto text-center space-y-12">
         {/* Main Birthday Message */}
-        <div className={`space-y-12 ${showContent ? 'fade-in-minimal' : 'opacity-0'}`}>
-          <div className="space-y-8">
-            <h1 className="text-5xl md:text-6xl font-semibold text-foreground">
+        <div className={`space-y-8 ${showContent ? 'fade-in-minimal' : 'opacity-0'}`}>
+          <div className="space-y-6">
+            <h1 className="text-5xl md:text-6xl font-semibold text-primary">
               Happy Birthday
             </h1>
             <div className="flex items-center justify-center gap-3">
-              <h2 className="text-3xl md:text-4xl font-semibold text-accent-foreground">
+              <h2 className="text-3xl md:text-4xl font-semibold text-foreground">
                 annuBee
               </h2>
-              <Heart className="w-8 h-8 text-accent-foreground" fill="currentColor" />
+              <Heart className="w-8 h-8 text-primary" fill="currentColor" />
             </div>
           </div>
         </div>
@@ -43,18 +43,14 @@ const BirthdayWish = () => {
         {/* Heartfelt Message */}
         {showMessage && (
           <div className="fade-in-minimal">
-            <Card className="minimal-card">
-              <CardContent className="p-8">
-                <div className="space-y-6">
-                  <p className="text-xl text-muted-foreground leading-relaxed">
-                    You're the most precious part of my life
-                  </p>
-                  <p className="text-base text-muted-foreground">
-                    Today is all about celebrating the amazing person you are
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+            <div className="minimal-card p-8 space-y-6">
+              <p className="text-xl text-foreground leading-relaxed">
+                You're the most precious part of my life
+              </p>
+              <p className="text-base text-muted-foreground">
+                Today is all about celebrating the amazing person you are
+              </p>
+            </div>
           </div>
         )}
 
@@ -63,7 +59,7 @@ const BirthdayWish = () => {
           <div className="fade-in-minimal">
             <Button
               onClick={() => navigate('/photo-gallery')}
-              variant="secondary"
+              size="lg"
               className="px-8 py-3 text-lg font-medium"
             >
               <Gift className="mr-2 w-5 h-5" />

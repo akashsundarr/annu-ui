@@ -56,21 +56,21 @@ const PhotoGallery = () => {
   const currentPhoto = photos[currentImageIndex];
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-6 bg-background relative overflow-hidden">
+    <div className="min-h-screen flex flex-col items-center justify-center p-4 md:p-8 bg-background font-['Inter']">
       {/* Header */}
-      <div className="absolute top-8 left-1/2 transform -translate-x-1/2 text-center fade-in-minimal">
-        <div className="inline-flex items-center gap-2 mb-2">
+      <div className="text-center mb-8 fade-in-minimal">
+        <div className="inline-flex items-center gap-2 mb-4">
           <Camera className="w-5 h-5 text-primary" />
-          <h1 className="text-2xl font-light text-foreground">Our Beautiful Memories</h1>
+          <h1 className="text-2xl font-semibold text-primary">Our Beautiful Memories</h1>
         </div>
-        <p className="text-sm text-muted-foreground font-light">Swipe through our precious moments</p>
+        <p className="text-sm text-muted-foreground">Swipe through our precious moments</p>
       </div>
 
       {/* Main Photo Container */}
       <div className="relative w-full max-w-lg mx-auto">
         {/* Photo Card */}
         <div 
-          className={`relative bg-card rounded-2xl shadow-lg overflow-hidden transition-all duration-500 ${
+          className={`relative minimal-card overflow-hidden transition-all duration-500 ${
             isAnimating ? 'scale-95 opacity-90' : 'scale-100 opacity-100'
           }`}
         >
@@ -89,12 +89,12 @@ const PhotoGallery = () => {
             <button
               onClick={handleArrowClick}
               disabled={isAnimating}
-              className={`absolute top-4 right-4 w-12 h-12 rounded-full bg-white/90 backdrop-blur-sm 
-                         flex items-center justify-center transition-all duration-200 hover:scale-110 
-                         hover:bg-white shadow-lg ${isAnimating ? 'pointer-events-none' : ''}`}
+              className={`absolute top-4 right-4 w-12 h-12 rounded-xl bg-secondary 
+                         flex items-center justify-center transition-all duration-200 hover:bg-accent 
+                         ${isAnimating ? 'pointer-events-none' : ''}`}
             >
               <ArrowRight 
-                className={`w-6 h-6 text-primary transition-all duration-200 ${
+                className={`w-6 h-6 text-secondary-foreground transition-all duration-200 ${
                   isAnimating ? 'scale-125' : 'scale-100'
                 }`} 
               />
@@ -114,7 +114,7 @@ const PhotoGallery = () => {
           <div className="p-6 text-center">
             <p 
               key={`caption-${currentImageIndex}`}
-              className="text-lg text-muted-foreground font-light italic animate-fade-in"
+              className="text-lg text-foreground leading-relaxed animate-fade-in"
             >
               {currentPhoto.caption}
             </p>
@@ -137,10 +137,11 @@ const PhotoGallery = () => {
       </div>
 
       {/* Navigation Button */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+      <div className="mt-12">
         <Button
           onClick={() => navigate('/gift-box')}
-          className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground px-10 py-4 rounded-full font-medium text-lg transition-all duration-200 hover:scale-105 shadow-lg border-0"
+          size="lg"
+          className="px-8 py-3 text-lg font-medium"
         >
           <Gamepad2 className="mr-3 w-5 h-5" />
           Let's Play Games

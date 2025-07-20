@@ -44,40 +44,24 @@ const Timeline = () => {
   };
 
   return (
-    <div className="min-h-screen py-12 px-6 bg-background relative overflow-hidden">
-      {/* Subtle floating elements */}
-      <div className="absolute inset-0 pointer-events-none opacity-20">
-        {[...Array(6)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-3 h-3 bg-accent rounded-full gentle-float"
-            style={{
-              left: `${15 + (i * 15)}%`,
-              top: `${20 + (i % 2) * 30}%`,
-              animationDelay: `${i * 1.2}s`,
-              animationDuration: '6s',
-            }}
-          />
-        ))}
-      </div>
-
-      <div className="max-w-4xl mx-auto relative z-10">
+    <div className="min-h-screen py-8 px-4 md:p-8 bg-background font-['Inter']">
+      <div className="max-w-3xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-16 fade-in-minimal">
-          <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-primary to-accent rounded-2xl flex items-center justify-center gentle-float">
-            <Heart className="w-8 h-8 text-primary-foreground" fill="currentColor" />
+        <div className="text-center mb-12 fade-in-minimal">
+          <div className="w-12 h-12 mx-auto mb-4 bg-secondary rounded-xl flex items-center justify-center">
+            <Heart className="w-6 h-6 text-primary" fill="currentColor" />
           </div>
-          <h1 className="text-4xl font-light text-foreground mb-4">Our Love Timeline</h1>
-          <p className="text-xl text-muted-foreground font-light leading-relaxed">
+          <h1 className="text-3xl font-semibold text-primary mb-4">Our Love Timeline</h1>
+          <p className="text-lg text-foreground leading-relaxed max-w-2xl mx-auto">
             Create your beautiful journey from the beginning to forever
           </p>
           
           {/* Add Story Button */}
-          <div className="mt-8">
+          <div className="mt-6">
             <Button
               onClick={addNewEntry}
               variant="outline"
-              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-6 py-3 rounded-full transition-all duration-200"
+              className="px-6 py-2"
             >
               <Plus className="mr-2 w-4 h-4" />
               Add Our Story
@@ -89,9 +73,9 @@ const Timeline = () => {
         {timelineEntries.length > 0 && (
           <div className="relative">
             {/* Timeline Line */}
-            <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-accent to-secondary transform md:-translate-x-1/2"></div>
+            <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-border transform md:-translate-x-1/2"></div>
 
-            <div className="space-y-12">
+            <div className="space-y-8">
               {timelineEntries.map((entry, index) => {
                 const IconComponent = entry.icon;
                 const isEven = index % 2 === 0;
@@ -105,14 +89,14 @@ const Timeline = () => {
                     style={{ animationDelay: `${index * 0.1}s` }}
                   >
                     {/* Timeline Icon */}
-                    <div className="absolute left-6 md:left-1/2 w-10 h-10 transform md:-translate-x-1/2 z-10">
-                      <div className="w-full h-full rounded-full bg-gradient-to-br from-accent to-secondary flex items-center justify-center shadow-lg">
-                        <IconComponent className="text-accent-foreground w-5 h-5" />
+                    <div className="absolute left-6 md:left-1/2 w-8 h-8 transform md:-translate-x-1/2 z-10">
+                      <div className="w-full h-full rounded-full bg-secondary flex items-center justify-center">
+                        <IconComponent className="text-primary w-4 h-4" />
                       </div>
                     </div>
 
                     {/* Content Card */}
-                    <div className={`w-full md:w-5/12 ml-20 md:ml-0 ${
+                    <div className={`w-full md:w-5/12 ml-16 md:ml-0 ${
                       isEven ? 'md:mr-8' : 'md:ml-8'
                     } relative`}>
                       {/* Delete Button */}
@@ -144,10 +128,10 @@ const Timeline = () => {
 
         {/* Empty State */}
         {timelineEntries.length === 0 && (
-          <div className="text-center py-16">
-            <div className="mb-8">
-              <Heart className="w-20 h-20 text-accent mx-auto mb-6 gentle-float" />
-              <h2 className="text-2xl font-light text-foreground mb-4">
+          <div className="text-center py-12">
+            <div className="mb-6">
+              <Heart className="w-16 h-16 text-primary mx-auto mb-4" />
+              <h2 className="text-2xl font-semibold text-primary mb-3">
                 Let's Create Our Story
               </h2>
               <p className="text-lg text-muted-foreground leading-relaxed">
@@ -156,7 +140,8 @@ const Timeline = () => {
             </div>
             <Button
               onClick={addNewEntry}
-              className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground px-8 py-4 rounded-full font-medium text-lg transition-all duration-200 hover:scale-105 border-0"
+              size="lg"
+              className="px-8 py-3 text-lg font-medium"
             >
               <Plus className="mr-2 w-5 h-5" />
               Start Our Timeline
@@ -166,33 +151,31 @@ const Timeline = () => {
 
         {/* Final Message */}
         {timelineEntries.length > 0 && (
-          <div className="text-center mt-20 space-y-8">
-            <Card className="minimal-card bg-gradient-to-br from-card to-accent/10 border-accent/20">
-              <CardContent className="p-10">
-                <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-primary to-accent rounded-2xl flex items-center justify-center gentle-float">
-                  <Heart className="w-8 h-8 text-primary-foreground" fill="currentColor" />
-                </div>
-                <h2 className="text-3xl font-light text-foreground mb-6">
-                  Here's to forever, just you and me
-                </h2>
-                <p className="text-xl text-muted-foreground font-light leading-relaxed italic mb-8">
-                  "Every day with you is a new adventure, every moment a new memory to treasure. 
-                  Thank you for being my partner, my best friend, and my greatest love. 
-                  Happy Birthday, my beautiful annuBee!"
+          <div className="text-center mt-16 space-y-6">
+            <div className="minimal-card p-8">
+              <div className="w-12 h-12 mx-auto mb-4 bg-secondary rounded-xl flex items-center justify-center">
+                <Heart className="w-6 h-6 text-primary" fill="currentColor" />
+              </div>
+              <h2 className="text-2xl font-semibold text-primary mb-4">
+                Here's to forever, just you and me
+              </h2>
+              <p className="text-lg text-foreground leading-relaxed mb-6">
+                "Every day with you is a new adventure, every moment a new memory to treasure. 
+                Thank you for being my partner, my best friend, and my greatest love. 
+                Happy Birthday, my beautiful annuBee!"
+              </p>
+              <div className="text-right">
+                <p className="text-base text-primary font-medium">
+                  Forever yours, akashee
                 </p>
-                <div className="text-right">
-                  <p className="text-lg text-primary font-medium">
-                    Forever yours, akashee
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
 
             {/* Home Button */}
             <Button
               onClick={() => navigate('/')}
               variant="outline"
-              className="px-8 py-3 font-medium border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-200 rounded-full"
+              className="px-6 py-2"
             >
               <Home className="mr-2 w-4 h-4" />
               Back to Beginning
