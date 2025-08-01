@@ -1,28 +1,18 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Heart, Camera, Calendar, MapPin, Star, Home, Plus, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import TimelineCard from '@/components/TimelineCard';
-
-interface TimelineEntry {
-  id: string;
-  title: string;
-  date: string;
-  description: string;
-  image: string;
-  icon: React.ComponentType<{ className?: string }>;
-}
+import TimelineCard from '@/components/TimelineCard.jsx';
 
 const Timeline = () => {
   const navigate = useNavigate();
-  const [timelineEntries, setTimelineEntries] = useState<TimelineEntry[]>([]);
+  const [timelineEntries, setTimelineEntries] = useState([]);
 
   const iconOptions = [Heart, Camera, Calendar, MapPin, Star];
 
   const addNewEntry = () => {
-    const newEntry: TimelineEntry = {
+    const newEntry = {
       id: Date.now().toString(),
       title: '',
       date: '',
@@ -33,11 +23,11 @@ const Timeline = () => {
     setTimelineEntries([...timelineEntries, newEntry]);
   };
 
-  const removeEntry = (id: string) => {
+  const removeEntry = (id) => {
     setTimelineEntries(timelineEntries.filter(entry => entry.id !== id));
   };
 
-  const updateEntry = (id: string, updatedData: Partial<TimelineEntry>) => {
+  const updateEntry = (id, updatedData) => {
     setTimelineEntries(timelineEntries.map(entry => 
       entry.id === id ? { ...entry, ...updatedData } : entry
     ));

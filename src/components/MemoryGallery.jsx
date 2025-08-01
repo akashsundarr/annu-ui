@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { ChevronRight, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -93,66 +92,38 @@ const MemoryGallery = () => {
             Our Memories ❤️
           </h1>
           <p className="text-lg text-pink-400 font-light">
-            Every picture tells our beautiful story
+            {currentIndex + 1} of {memories.length}
           </p>
         </div>
 
-        {/* Photo Display */}
-        <div className="relative max-w-2xl mx-auto">
-          <Card className="overflow-hidden shadow-2xl bg-white/90 backdrop-blur-sm border-0 rounded-3xl">
-            {/* Image Container */}
-            <div className="relative aspect-[4/3] overflow-hidden">
-              <img
-                key={currentIndex}
-                src={currentMemory.src}
-                alt={`Memory ${currentIndex + 1}`}
-                className="w-full h-full object-cover transition-all duration-700 hover:scale-105"
-              />
-              
-              {/* Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
-            </div>
+        {/* Memory Card */}
+        <Card className="relative overflow-hidden shadow-2xl bg-white/80 backdrop-blur-sm border-pink-200 rounded-3xl">
+          <div className="aspect-[4/3] relative overflow-hidden">
+            <img
+              src={currentMemory.src}
+              alt="Memory"
+              className="w-full h-full object-cover transition-all duration-500 hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+          </div>
+          
+          <div className="p-8 text-center">
+            <p className="text-xl text-gray-700 font-medium leading-relaxed">
+              {currentMemory.caption}
+            </p>
+          </div>
+        </Card>
 
-            {/* Caption */}
-            <div className="p-8 text-center">
-              <p 
-                key={`caption-${currentIndex}`}
-                className="text-xl text-gray-700 font-light italic leading-relaxed animate-fade-in"
-              >
-                {currentMemory.caption}
-              </p>
-            </div>
-          </Card>
-
-          {/* Navigation Button */}
+        {/* Navigation */}
+        <div className="text-center mt-12">
           <Button
             onClick={nextPhoto}
-            className="absolute right-6 top-1/2 transform -translate-y-1/2 w-14 h-14 rounded-full bg-gradient-to-r from-pink-400 to-rose-400 hover:from-pink-500 hover:to-rose-500 text-white shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110 border-4 border-white"
+            size="lg"
+            className="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
           >
-            <ChevronRight className="w-6 h-6" />
+            {currentIndex === memories.length - 1 ? 'Start Over' : 'Next Memory'}
+            <ChevronRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Button>
-        </div>
-
-        {/* Photo Counter */}
-        <div className="flex justify-center mt-8 space-x-3">
-          {memories.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentIndex(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                index === currentIndex 
-                  ? 'bg-gradient-to-r from-pink-400 to-purple-400 scale-125 shadow-lg' 
-                  : 'bg-pink-200 hover:bg-pink-300'
-              }`}
-            />
-          ))}
-        </div>
-
-        {/* Memory Counter */}
-        <div className="text-center mt-6">
-          <p className="text-pink-400 font-light">
-            Memory {currentIndex + 1} of {memories.length}
-          </p>
         </div>
       </div>
     </div>

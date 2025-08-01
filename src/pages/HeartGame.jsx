@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Heart, ArrowRight, RotateCcw } from 'lucide-react';
@@ -7,8 +6,8 @@ import { Card, CardContent } from '@/components/ui/card';
 
 const HeartGame = () => {
   const navigate = useNavigate();
-  const [clickedHearts, setClickedHearts] = useState<number[]>([]);
-  const [currentMessage, setCurrentMessage] = useState<string>('');
+  const [clickedHearts, setClickedHearts] = useState([]);
+  const [currentMessage, setCurrentMessage] = useState('');
   const [allRevealed, setAllRevealed] = useState(false);
 
   const loveReasons = [
@@ -37,7 +36,7 @@ const HeartGame = () => {
     { top: '65%', left: '55%' }
   ];
 
-  const handleHeartClick = (index: number) => {
+  const handleHeartClick = (index) => {
     if (clickedHearts.includes(index)) return;
     
     setClickedHearts(prev => [...prev, index]);

@@ -1,20 +1,9 @@
-
 import { useState } from 'react';
 import { Upload, X, Edit, Save, Camera } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-
-interface TimelineCardProps {
-  isEditable?: boolean;
-  initialTitle?: string;
-  initialDate?: string;
-  initialDescription?: string;
-  initialImage?: string;
-  IconComponent?: React.ComponentType<{ className?: string }>;
-  onSave?: (data: { title: string; date: string; description: string; image: string }) => void;
-}
 
 const TimelineCard = ({
   isEditable = false,
@@ -24,7 +13,7 @@ const TimelineCard = ({
   initialImage = "",
   IconComponent = Camera,
   onSave
-}: TimelineCardProps) => {
+}) => {
   const [isEditing, setIsEditing] = useState(isEditable && !initialTitle);
   const [title, setTitle] = useState(initialTitle);
   const [date, setDate] = useState(initialDate);
@@ -32,12 +21,12 @@ const TimelineCard = ({
   const [image, setImage] = useState(initialImage);
   const [imagePreview, setImagePreview] = useState(initialImage);
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = (event) => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        const result = e.target?.result as string;
+        const result = e.target?.result;
         setImage(result);
         setImagePreview(result);
       };
