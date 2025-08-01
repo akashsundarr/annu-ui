@@ -58,12 +58,12 @@ const BirthdayWish = () => {
         {showButton && (
           <div className="fade-in-minimal">
             <Button
-              onClick={() => navigate('/photo-gallery')}
+              onClick={() => navigate('/timeline')}
               size="lg"
               className="px-8 py-3 text-lg font-medium"
             >
               <Gift className="mr-2 w-5 h-5" />
-              Open Your First Gift
+              Create Our Timeline
             </Button>
           </div>
         )}
